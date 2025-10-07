@@ -1,0 +1,26 @@
+
+ body{
+    background-image: url("https://wallpapers.com/images/hd/stock-market-background-wdb83di320cjbktg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+ }     
+#logo{
+    height: 10vh; 
+    display: block; 
+    margin: 5vh auto; 
+    box-shadow: 1px 6px 60px 6px whitesmoke; 
+}
+
+#form{
+    height: 50vh;
+    width: 70vh; 
+    display: block; 
+    background-position: center;  
+    margin: auto;  
+    background-color:#E3D8DE  ; 
+    background-size: 50%;
+    border-radius:22px; 
+}
+        
