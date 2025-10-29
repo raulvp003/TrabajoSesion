@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>Restablecer contraseña</title>
@@ -11,40 +6,94 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="image/png" href="logo.png">
         <link rel="stylesheet" href="CSSlogin.css">
+
         <script type="text/javascript">
-            function BOnClick(){
-                
-                const oldPass=document.getElementById("oldPassword");
-                const newPass=document.getElementById("nuevaPassword");
-                const confPass=document.getElementById("confirmPassword");
-                let cError=document.getElementById("cAlerta");
-                let cTitulo=document.getElementById("titulo");
-                
-                if (oldPass.value.trim().length===0 || newPass.value.trim().length===0 ||confPass.value.trim().length===0 ) {
-                cError.textContent = "❌ Debes completar todos los campos"; 
-                cError.style.visibility="visible";
-                cTitulo.style.backgroundColor="red";
+            function EyeSwap(inputId, iconId) {
+                const input = document.getElementById(inputId);
+                const icon = document.getElementById(iconId);
+
+                if (input.type === "password") {
+                    input.type = "text"; // mostrar contraseña
+                    icon.src = "https://cdn-icons-png.flaticon.com/128/565/565655.png"; // ojo cerrado
+                } else {
+                    input.type = "password"; // ocultar contraseña
+                    icon.src = "https://cdn-icons-png.flaticon.com/128/159/159604.png"; // ojo abierto
                 }
-                if (newPass.value===confPass.value ) {
-                cError.textContent = "❌ Debes completar todos los campos"; 
-                cError.style.visibility="visible";
-                cTitulo.style.backgroundColor="red";
+            }
+            
+            function BOnClick(event) {
+                try {
+                    //Obtenemos los objetos para los elementos del form
+                    const oldPass = document.getElementById("oldPassword");
+                    const newPass = document.getElementById("nuevaPassword");
+                    const confPass = document.getElementById("confirmPassword");
+
+                    
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    
+                    if (oldPass.value.trim() === "" || newPass.value.trim() === "" || confPass.value.trim() === "")
+                        throw new Error("Debes completar todos los campos.");
+
+                    
+                    if (newPass.value.length > 255)
+                        throw new Error("La nueva contraseña no puede tener más de 255 caracteres.");
+                    
+                    if (newPass.value.length < 8)
+                        throw new Error("La nueva contraseña no puede tener menos de 8 caracteres.");
+
+                    
+                    if (newPass.value !== confPass.value)
+                        throw new Error("Las contraseñas nuevas no coinciden.");
+
+                   
+                    const msgBox = document.getElementById("cAlerta");
+
+                    msgBox.textContent = '✅ Contraseña cambiada correctamente. ✅';
+                    msgBox.style.display = 'block';
+                    document.getElementById("titulo").style.backgroundColor = 'green';
+                    msgBox.style.backgroundColor = 'green';
+                    
+                    //sendRequestAndProcessResponse();
+
+                } catch (error) {
+                    
+                    const msgBox = document.getElementById("cAlerta");
+                    msgBox.textContent = '✖️ ' + error.message + ' ✖️';
+                    msgBox.style.display = 'block';
+                    document.getElementById("titulo").style.backgroundColor = 'red';
+                    msgBox.style.backgroundColor = 'red';
+
                 }
-            }</script>
+            }
+        </script>
     </head>
+
     <body>
-        
-        
-        <div> <img id="logo" src="logo.png"></div>
+        <div><img id="logo" src="logo.png" onclick="window.open('https://www.google.com', '_blank');"></div>
         <div id="form">
             <h1 id="titulo">Cambio de contraseña</h1>
-            <form>
-                <input type="password" name="oldPassword" id="oldPassword" placeholder="Contraseña actual" required>
-                <br>              
-                <input type="password" name="nuevaPassword" id="nuevaPassword" placeholder="Nueva contraseña" required>
-                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirmar contraseña" required>
-                <div id="cAlerta"></div>
-                <button type="submit" onclick="BOnClick();"> Cambiar contraseña</button>
+            <form id="signInForm" method="GET" action="http://localhost:8080/CRUDBankServerSide/webresources/customer/sigin/">
+                <div class="password-container">
+                    <input type="password" name="oldPassword" id="oldPassword" placeholder="Contraseña actual">
+                    <img src="https://cdn-icons-png.flaticon.com/128/159/159604.png" alt="Mostrar contraseña"id="toggleOldPassword"
+                         onclick="EyeSwap('oldPassword', 'toggleOldPassword')">
+                </div>
+                <br>
+                <div class="password-container">
+                    <input type="password" name="nuevaPassword" id="nuevaPassword" placeholder="Nueva contraseña">
+                    <img src="https://cdn-icons-png.flaticon.com/128/159/159604.png" alt="Mostrar contraseña"id="toggleNewPassword" 
+                         onclick="EyeSwap('nuevaPassword', 'toggleNewPassword')">
+                    
+                </div>
+                <div class="password-container">
+                    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirmar contraseña">
+                    <img src="https://cdn-icons-png.flaticon.com/128/159/159604.png" alt="Mostrar contraseña"id="toggleConfPassword"
+                         onclick="EyeSwap('confirmPassword', 'toggleConfPassword')">
+                </div>
+                <div id="cAlerta" style="display:none; margin-top:10px;"></div>
+                <button type="submit" onclick="BOnClick(event);">Cambiar contraseña</button>
             </form>
         </div>
     </body>
