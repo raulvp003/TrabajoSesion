@@ -11,12 +11,41 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="image/png" href="logo.png">
         <link rel="stylesheet" href="CSSlogin.css">
+        <script type="text/javascript">
+            function BOnClick(){
+                
+                const oldPass=document.getElementById("oldPassword");
+                const newPass=document.getElementById("nuevaPassword");
+                const confPass=document.getElementById("confirmPassword");
+                let cError=document.getElementById("cAlerta");
+                let cTitulo=document.getElementById("titulo");
+                
+                if (oldPass.value.trim().length===0 || newPass.value.trim().length===0 ||confPass.value.trim().length===0 ) {
+                cError.textContent = "❌ Debes completar todos los campos"; 
+                cError.style.visibility="visible";
+                cTitulo.style.backgroundColor="red";
+                }
+                if (newPass.value===confPass.value ) {
+                cError.textContent = "❌ Debes completar todos los campos"; 
+                cError.style.visibility="visible";
+                cTitulo.style.backgroundColor="red";
+                }
+            }</script>
     </head>
     <body>
         
+        
         <div> <img id="logo" src="logo.png"></div>
         <div id="form">
-            
+            <h1 id="titulo">Cambio de contraseña</h1>
+            <form>
+                <input type="password" name="oldPassword" id="oldPassword" placeholder="Contraseña actual" required>
+                <br>              
+                <input type="password" name="nuevaPassword" id="nuevaPassword" placeholder="Nueva contraseña" required>
+                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirmar contraseña" required>
+                <div id="cAlerta"></div>
+                <button type="submit" onclick="BOnClick();"> Cambiar contraseña</button>
+            </form>
         </div>
     </body>
 </html>

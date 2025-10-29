@@ -23,6 +23,7 @@
     background-size: 50%;
     border-radius:22px; 
     padding-bottom: 25px;
+    box-shadow: 10px 10px 25px lightblue;
 }
 input[type="email"], input[type="password"] {
     width: 90%;
@@ -47,7 +48,21 @@ button{
     height: 40px;
     width: auto;
     border:15px;
-    display: block;        /* hace que el botón sea un bloque */
-    margin-left: 0;        /* se pega al borde izquierdo del contenedor */
-    margin-top: 10px; 
+    display: block;        
+    margin-left: 45vh;       
+    margin-top: 20px; 
+    font-size:2vh;
+    border-radius: 10px;
+}
+button:hover{
+    background-color:#536895;
+}
+
+#cAlerta{
+    visibility: hidden;
+    background-color:red;
+    text-align: center;
+    font-family: Tahoma;
+    padding:5px 2px;
+    
 }
