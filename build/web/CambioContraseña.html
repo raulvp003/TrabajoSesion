@@ -21,47 +21,12 @@
                 }
             }
 
-
-
             function BOnClick(event) {
                 try {
                     //Obtenemos los objetos para los elementos del form
                     const oldPass = document.getElementById("oldPassword");
                     const newPass = document.getElementById("nuevaPassword");
                     const confPass = document.getElementById("confirmPassword");
-
-
-                    
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    
-                    if (oldPass.value.trim() === "" || newPass.value.trim() === "" || confPass.value.trim() === "")
-                        throw new Error("Debes completar todos los campos.");
-
-                    
-                    if (newPass.value.length > 255)
-                        throw new Error("La nueva contraseña no puede tener más de 255 caracteres.");
-                    
-                    if (newPass.value.length < 8)
-                        throw new Error("La nueva contraseña no puede tener menos de 8 caracteres.");
-
-                    
-                    if (newPass.value !== confPass.value)
-                        throw new Error("Las contraseñas nuevas no coinciden.");
-
-                   
-                    const msgBox = document.getElementById("cAlerta");
-
-                    msgBox.textContent = '✅ Contraseña cambiada correctamente. ✅';
-                    msgBox.style.display = 'block';
-                    document.getElementById("titulo").style.backgroundColor = 'green';
-                    msgBox.style.backgroundColor = 'green';
-                    
-                    //sendRequestAndProcessResponse();
-
-                } catch (error) {
-                    
 
 
                     event.preventDefault();
@@ -88,7 +53,6 @@
 
                 } catch (error) {
 
-
                     const msgBox = document.getElementById("cAlerta");
                     msgBox.textContent = '✖️ ' + error.message + ' ✖️';
                     msgBox.style.display = 'block';
@@ -97,7 +61,6 @@
 
                 }
             }
-
 
             function sendRequestAndProcessResponse() {
                 const msgBox = document.getElementById("cAlerta");
@@ -236,7 +199,6 @@
                             document.getElementById("titulo").style.backgroundColor = 'red';
                         });
             }
-
         </script>
     </head>
 
