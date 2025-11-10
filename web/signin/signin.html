@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Inicio de Sesión</title>
+    <title>SIGN IN</title>
     <meta charset="UTF-8">
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
     <link rel="icon" type="image/png" href="Imagenes/logo.png">
@@ -248,22 +248,22 @@
             <a href="index.html"> <!-- Index -->
                 <img src="Imagenes/logo.png">
             </a>
-            <h1>INICIO DE SESIÓN</h1>
-            <p>Introduce tu correo electrónico y tu contraseña para poder acceder a toda la informacion de tu cuenta bancaria.</p>
+            <h1>Sign In</h1>
+            <p>Enter your email address and password to access all your bank account information.</p>
         </div>
 
         <div class="informacion ocultar" id="bienvenido1" style="text-align: center; padding: 20px 30px;">
             <a href="index.html"> <!-- Index -->
                 <img src="Imagenes/logo.png">
             </a>
-            <h1>TE DAMOS LA BIENVENIDA</h1>
+            <h1>WELCOME</h1>
             <p id="mostrarCorreo"></p>
         </div>
 
         <div class="botones">
             <!--<button type="button" onclick="window.location.href= 'https://www.google.com/'">Inicio</button>-->
-            <a href="index.html" class="boton mostrar" id="inicio">Inicio</a> <!-- Index -->
-            <button type="button" class="boton ocultar" id="atras">Atrás</button>
+            <a href="index.html" class="boton mostrar" id="inicio">Home</a> <!-- Index -->
+            <button type="button" class="boton ocultar" id="atras">Back</button>
         </div>
 
     </div>
@@ -274,9 +274,9 @@
             <div class="informacion" style="justify-content: center; padding: 20px 0px;">
                 <div class="guardarfieldset">
                     <fieldset class="marco">
-                        <legend id="legendcampo">Correo Electrónico</legend>
+                        <legend id="legendcampo">Email</legend>
                         <div class="datos mostrar" id="cajaEmail">
-                            <input type="email" class="inputTexto" id="email" name="email" placeholder="Usuario_1234@gmail.com" required>
+                            <input type="email" class="inputTexto" id="email" name="email" placeholder="User_1234@gmail.com" required>
                             <div class="textoError" id="textoErrorE"></div>
                         </div>
 
@@ -284,7 +284,7 @@
                             <input type="password" class="inputTexto" id="password" name="password" placeholder="************" required>
                             <div class="verContrasenya">
                                 <input type="checkbox" id="verContrasenya" name="verContrasenya" style="cursor: pointer;">
-                                <label for="verContrasenya" style="cursor: pointer;">Mostrar Contraseña</label>
+                                <label for="verContrasenya" style="cursor: pointer;">Show password</label>
                             </div>
                           
                             <div class="textoError" id="textoErrorP"></div>                            
@@ -294,10 +294,10 @@
             </div>
 
             <div class="botones" id="derecho">
-                <a href="signup.html" class="boton mostrar" id="crear">Crear Cuenta</a> <!-- Sign Up -->
+                <a href="signup.html" class="boton mostrar" id="crear">Create account</a> <!-- Sign Up -->
                 <!--<button type="button" class="boton">Crear cuenta</button>-->
-                <button type="button" class="boton mostrar" id="siguiente">Siguiente</button>
-                <button type="submit" class="boton ocultar" id="entrar">Entrar</button>
+                <button type="button" class="boton mostrar" id="siguiente">Next</button>
+                <button type="submit" class="boton ocultar" id="entrar">Login</button>
             </div>
         </form>
 
@@ -352,7 +352,7 @@
         return;
     }
             
-        legendcampo.textContent = "Contraseña";
+        legendcampo.textContent = "Password";
         derecho.style.justifyContent = "flex-end";
         crear.classList.replace('mostrar','ocultar')
         ver_nover(cajaEmail, cajaPassword);
@@ -377,7 +377,7 @@
         validacionPassword.value = "";
         textoErrorP.innerHTML = "";
 
-        legendcampo.textContent = "Correo Electrónico";
+        legendcampo.textContent = "Email";
         crear.classList.replace('ocultar','mostrar');
         ver_nover(cajaPassword,cajaEmail);
         ver_nover(bienvenido1,bienvenido0);
