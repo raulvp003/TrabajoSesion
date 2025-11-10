@@ -25,5 +25,5 @@ Este repositorio Git tiene la siguiente estructura:
 ## Desarrolladores
 Este proyecto se ha realizado por:
 - Jair Ortiz 
-- Raúl
-- Eloy
+- Raúl Vera
+- Eloy Rodríguez
