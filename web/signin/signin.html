@@ -4,7 +4,7 @@
     <title>SIGN IN</title>
     <meta charset="UTF-8">
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
-    <link rel="icon" type="image/png" href="Imagenes/logo.png">
+    <link rel="icon" type="image/png" href="../logo.png">
     <style type="text/css">
         body {
             /*border: 1px solid red;*/          /*height: 100% -> Mide respecto al contenedor padre*/
@@ -245,16 +245,16 @@
     <div class="panel">
 
         <div class="informacion mostrar" id="bienvenido0" style="text-align: center; padding: 20px 30px;">
-            <a href="index.html"> <!-- Index -->
-                <img src="Imagenes/logo.png">
+            <a href="../index.html"> <!-- Index -->
+                <img src="../logo.png">
             </a>
             <h1>Sign In</h1>
             <p>Enter your email address and password to access all your bank account information.</p>
         </div>
 
         <div class="informacion ocultar" id="bienvenido1" style="text-align: center; padding: 20px 30px;">
-            <a href="index.html"> <!-- Index -->
-                <img src="Imagenes/logo.png">
+            <a href="../index.html"> <!-- Index -->
+                <img src="../logo.png">
             </a>
             <h1>WELCOME</h1>
             <p id="mostrarCorreo"></p>
@@ -262,7 +262,7 @@
 
         <div class="botones">
             <!--<button type="button" onclick="window.location.href= 'https://www.google.com/'">Inicio</button>-->
-            <a href="index.html" class="boton mostrar" id="inicio">Home</a> <!-- Index -->
+            <a href="../index.html" class="boton mostrar" id="inicio">Home</a> <!-- Index -->
             <button type="button" class="boton ocultar" id="atras">Back</button>
         </div>
 
@@ -294,7 +294,7 @@
             </div>
 
             <div class="botones" id="derecho">
-                <a href="signup.html" class="boton mostrar" id="crear">Create account</a> <!-- Sign Up -->
+                <a href="../signup/signUp.html" class="boton mostrar" id="crear">Create account</a> <!-- Sign Up -->
                 <!--<button type="button" class="boton">Crear cuenta</button>-->
                 <button type="button" class="boton mostrar" id="siguiente">Next</button>
                 <button type="submit" class="boton ocultar" id="entrar">Login</button>
@@ -510,7 +510,7 @@
         }
         if(e.ctrlKey && e.shiftKey && (e.key === "2" || e.key === '"')){
             if(!crear.classList.contains('ocultar'))
-                window.location.href = "signup.html"; /* Sign Up */    
+                window.location.href = "../signup/signUp.html"; /* Sign Up */    
         }
         if(e.ctrlKey && e.shiftKey && e.key === "ArrowRight"){
             if (siguiente.classList.contains('mostrar'))

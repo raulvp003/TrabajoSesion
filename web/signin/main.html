@@ -4,7 +4,7 @@
     <title>Main Page Bank</title>
     <meta charset="UTF-8">
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
-    <link rel="icon" type="image/png" href="Imagenes/logo1.png">
+    <link rel="icon" type="image/png" href="../logo.png">
     <style type="text/css">
         body{
             /*border: 1px solid red;*/
@@ -142,7 +142,7 @@
 
 <body>
     <div class="cabecera">
-        <img class="imagen" src="Imagenes/logo1.png">
+        <img class="imagen" src="../logo.png">
         <div class="usuario" id="usuario">
             <div class="ajustes" id="ajustes">Settings</div>
             <div class="menu" id="menu">
@@ -161,7 +161,7 @@
     
     <script>
         /*if (!sessionStorage.getItem("customer.id")) {
-            window.location.href = "proyecto.html"; 
+            window.location.href = "../index.html"; 
         }*/
 
         const usuario = document.getElementById("usuario");
@@ -178,7 +178,7 @@
 
         cerrarSesion.addEventListener("click", () => {
             sessionStorage.clear();                  
-            window.location.href = "proyecto.html"; 
+            window.location.href = "../index.html"; 
         });
 
         window.addEventListener("click", (e) => {
