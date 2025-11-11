@@ -22,6 +22,10 @@ body {
     height: 90px;
     margin-bottom: 20px;
     box-shadow: 1px 6px 60px 6px whitesmoke;
+    transition: transform 0.5s;
+}
+#logo:hover{
+    transform: scale(1.1);
 }
 #form{
     height: auto;
