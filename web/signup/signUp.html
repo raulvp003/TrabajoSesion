@@ -236,7 +236,7 @@
       const xml = customer.toXML();
 
       // ===== Enviar datos al servidor =====
-      fetch("http://localhost:8080/CRUDBankServerSide/webresources/customer", {
+      fetch("/CRUDBankServerSide/webresources/customer", {
         method: 'POST',
         headers: { 'Content-Type': 'application/xml' },
         body: xml
