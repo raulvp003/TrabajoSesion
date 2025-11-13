@@ -12,6 +12,7 @@
     margin: 5vh auto; 
     box-shadow: 1px 6px 60px 6px whitesmoke; 
     cursor: pointer; 
+    transition:transform 0.5s;
 }
 
 #form{
@@ -92,4 +93,12 @@ button:hover{
 
 .password-container img:hover {
     opacity: 1;
+}
+#logo:hover{
+    transform: scale(1.1);
+    
+}
+
+input:hover{
+    background-color: lightblue;
 }
