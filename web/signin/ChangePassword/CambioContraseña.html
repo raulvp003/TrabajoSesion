@@ -1,244 +1,49 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
     <head>
-        <title>Reset Password</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/png" href="../../logo.png">
-        <link rel="stylesheet" href="CSSlogin.css">
-
-        <script type="text/javascript">
-
-
-            function EyeSwap(inputId, iconId) {
-                const input = document.getElementById(inputId);
-                const icon = document.getElementById(iconId);
-                if (input.type === "password") {
-                    input.type = "text"; // show password
-                    icon.src = "https://cdn-icons-png.flaticon.com/128/565/565655.png"; // closed eye
-                } else {
-                    input.type = "password"; // hide password
-                    icon.src = "https://cdn-icons-png.flaticon.com/128/159/159604.png"; // open eye
-                }
-            }
-
-            function BOnClick(event) {
-
-                event.preventDefault();
-                event.stopPropagation();
-                const oldPass = document.getElementById("oldPassword");
-                const newPass = document.getElementById("nuevaPassword");
-                const confPass = document.getElementById("confirmPassword");
-                const msgBox = document.getElementById("cAlerta");
-                const titulo = document.getElementById("titulo");
-                try {
-                    if (oldPass.value.trim() === "" || newPass.value.trim() === "" || confPass.value.trim() === "")
-                        throw new Error("All fields must be completed.");
-                    if (newPass.value.length > 255)
-                        throw new Error("The new password cannot exceed 255 characters.");
-                    if (newPass.value.length < 8)
-                        throw new Error("The new password must be at least 8 characters long.");
-                    if (newPass.value !== confPass.value)
-                        throw new Error("The new passwords do not match.");
-                    sendRequestAndProcessResponse();
-                } catch (error) {
-                    msgBox.textContent = '✖️ ' + error.message + ' ✖️';
-                    msgBox.style.display = 'block';
-                    msgBox.style.backgroundColor = 'red';
-                    titulo.style.backgroundColor = 'red';
-                }
-            }
-
-
-            function sendRequestAndProcessResponse() {
-                const msgBox = document.getElementById("cAlerta");
-                const userId = sessionStorage.getItem("customer.id");
-                const oldPass = document.getElementById("oldPassword");
-
-                fetch('http://localhost:8080/CRUDBankServerSide/webresources/customer', {method: 'GET'})
-                        .then(response => {
-                            if (!response.ok) {
-                                return response.text().then(text => {
-                                    throw new Error(`HTTP Error ${response.status}: ${text}`);
-                                });
-                            }
-                            return response.text();
-                        })
-                        .then(xmlString => {
-                            console.log("Received XML:\n", xmlString);
-
-                            const parser = new DOMParser();
-                            const xmlDoc = parser.parseFromString(xmlString, "application/xml");
-                            const customers = xmlDoc.getElementsByTagName("customer");
-
-                            let foundCustomer = null;
-                            for (let i = 0; i < customers.length; i++) {
-                                const idNode = customers[i].querySelector(":scope > id");
-                                const idText = idNode ? idNode.textContent.trim() : "N/A";
-                                console.log(`Comparing customer ${i}: XML ID='${idText}' with userId='${userId}'`);
-
-                                if (idNode && idText === userId) {
-                                    foundCustomer = customers[i];
-                                    console.log("Customer found:", foundCustomer);
-                                    break;
-                                }
-                            }
-
-                            if (!foundCustomer)
-                                throw new Error("Customer not found");
-
-                            const passwordNode = foundCustomer.querySelector(":scope > password");
-                            const OGpass = passwordNode ? passwordNode.textContent.trim() : null;
-
-                            console.log("Password found:", OGpass);
-                            console.log("Entered password:", oldPass.value.trim());
-
-                            if (!OGpass)
-                                throw new Error("Customer has no registered password");
-
-                            if (OGpass === oldPass.value.trim()) {
-                                console.log("Password correct. Calling sendNewPassword()");
-                                sendNewPassword();
-                            } else {
-                                throw new Error("The old password does not match");
-                            }
-                        })
-                        .catch(error => {
-                            console.error(error);
-                            msgBox.textContent = '✖️ ' + error.message;
-                            msgBox.style.display = 'block';
-                            msgBox.style.backgroundColor = 'red';
-                            document.getElementById("titulo").style.backgroundColor = 'red';
-                        });
-            }
-
-   
-            function sendNewPassword() {
-                const msgBox = document.getElementById("cAlerta");
-                const userId = sessionStorage.getItem("customer.id");
-                const oldPass = document.getElementById("oldPassword").value.trim();
-                const newPass = document.getElementById("nuevaPassword").value.trim();
-
-                fetch('http://localhost:8080/CRUDBankServerSide/webresources/customer', {method: 'GET'})
-                        .then(response => {
-                            if (!response.ok)
-                                throw new Error('Error fetching customer data');
-                            return response.text();
-                        })
-                        .then(xmlString => {
-                            console.log("XML received from server:\n", xmlString);
-
-                            const parser = new DOMParser();
-                            const xmlDoc = parser.parseFromString(xmlString, "application/xml");
-                            const customers = xmlDoc.getElementsByTagName("customer");
-                            console.log(`Number of customers found: ${customers.length}`);
-
-                            let foundCustomer = null;
-                            for (let i = 0; i < customers.length; i++) {
-                                const idNode = customers[i].querySelector(":scope > id");
-                                const idText = idNode ? idNode.textContent.trim() : "N/A";
-                                console.log(`Comparing customer ${i}: XML ID='${idText}' with userId='${userId}'`);
-
-                                if (idNode && idText === userId) {
-                                    foundCustomer = customers[i];
-                                    console.log("Customer found:", foundCustomer);
-                                    break;
-                                }
-                            }
-
-                            if (!foundCustomer)
-                                throw new Error("Customer not found");
-
-                            const passwordNode = foundCustomer.querySelector(":scope > password");
-                            const OGpass = passwordNode ? passwordNode.textContent.trim() : null;
-                            console.log("Password found:", OGpass);
-                            console.log("Entered password:", oldPass);
-
-                            if (!OGpass)
-                                throw new Error("Customer has no registered password");
-                            if (OGpass !== oldPass)
-                                throw new Error("The old password does not match");
-
-                            const city = foundCustomer.querySelector(":scope > city")?.textContent.trim() || "";
-                                    const email = foundCustomer.querySelector(":scope > email")?.textContent.trim() || "";
-                                    const firstName = foundCustomer.querySelector(":scope > firstName")?.textContent.trim() || "";
-                                    const lastName = foundCustomer.querySelector(":scope > lastName")?.textContent.trim() || "";
-                                    const middleInitial = foundCustomer.querySelector(":scope > middleInitial")?.textContent.trim() || "";
-                                    const phone = foundCustomer.querySelector(":scope > phone")?.textContent.trim() || "";
-                                    const state = foundCustomer.querySelector(":scope > state")?.textContent.trim() || "";
-                                    const street = foundCustomer.querySelector(":scope > street")?.textContent.trim() || "";
-                                    const zip = foundCustomer.querySelector(":scope > zip")?.textContent.trim() || "";
-
-                            const xmlData = `<customer>
-                                                <city>${city}</city>
-                                                <email>${email}</email>
-                                                <firstName>${firstName}</firstName>
-                                                <id>${userId}</id>
-                                                <lastName>${lastName}</lastName>
-                                                <middleInitial>${middleInitial}</middleInitial>
-                                                <password>${newPass}</password>
-                                                <phone>${phone}</phone>
-                                                <state>${state}</state>
-                                                <street>${street}</street>
-                                                <zip>${zip}</zip>
-                                            </customer>
-                                            `.trim();
-
-                            console.log("XML to send to server:\n", xmlData);
-
-                            return fetch('http://localhost:8080/CRUDBankServerSide/webresources/customer', {
-                                method: 'PUT',
-                                headers: {'Content-Type': 'application/xml'},
-                                body: xmlData
-                            });
-                        })
-                        .then(response => {
-                            if (!response.ok)
-                                throw new Error('Error updating password on server');
-                            return response.text();
-                        })
-                        .then(text => {
-                            console.log("Server response:", text);
-                            msgBox.textContent = '✅ Password successfully changed ✅';
-                            msgBox.style.display = 'block';
-                            msgBox.style.backgroundColor = 'green';
-                            document.getElementById("titulo").style.backgroundColor = 'green';
-                        })
-                        .catch(error => {
-                            console.error(error);
-                            msgBox.textContent = '✖️ ' + error.message;
-                            msgBox.style.display = 'block';
-                            msgBox.style.backgroundColor = 'red';
-                            document.getElementById("titulo").style.backgroundColor = 'red';
-                        });
-            }
-        </script>
+        <title>Reset Password</title> <!-- Título de la pestaña -->
+        <meta charset="UTF-8"> <!-- Permite tildes y ñ -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ajuste a pantallas móviles -->
+        <link rel="icon" type="image/png" href="../../logo.png"> <!-- Icono del navegador -->
+        <link rel="stylesheet" href="CSSlogin.css"> <!-- Archivo CSS  -->
+        <script type="text/javascript" src="CCjs.js" defer></script> <!-- Archivo JS externo (se ejecuta al final) -->
     </head>
 
     <body>
-        <div><img id="logo" src="../../logo.png" onclick="window.open('https://www.google.com', '_blank');"></div>
-        <div id="form">
-            <h1 id="titulo">Change Password</h1>
-            <form id="signInForm" method="GET" action="http://localhost:8080/CRUDBankServerSide/webresources/customer/sigin/">
-                <div class="password-container">
-                    <input type="password" name="oldPassword" id="oldPassword" placeholder="Current Password">
+        <div>
+            <img id="logo" src="../../logo.png" onclick="window.open('../main.html', '_blank');"> <!-- Logo que abre main -->
+        </div>
+
+        <div id="form"> <!-- Contenedor principal del formulario -->
+            <h1 id="titulo">Change Password</h1> <!-- Título de la página -->
+
+            <form id="signInForm" method="GET" action="/CRUDBankServerSide/webresources/customer/sigin/"> <!-- Formulario con método GET -->
+                
+                <div class="password-container"> <!-- Contenedor del primer campo -->
+                    <input type="password" name="oldPassword" id="oldPassword" placeholder="Current Password"> <!-- Input para contraseña actual -->
                     <img src="https://cdn-icons-png.flaticon.com/128/159/159604.png" alt="Show password" id="toggleOldPassword"
-                         onclick="EyeSwap('oldPassword', 'toggleOldPassword')">
+                         onclick="EyeSwap('oldPassword', 'toggleOldPassword')"> <!-- Ojo que alterna mostrar/ocultar -->
                 </div>
-                <br>
-                <div class="password-container">
-                    <input type="password" name="nuevaPassword" id="nuevaPassword" placeholder="New Password">
+
+                <br> 
+
+                <div class="password-container"> <!-- Contenedor del segundo campo -->
+                    <input type="password" name="nuevaPassword" id="nuevaPassword" placeholder="New Password"> <!-- input para nueva contraseña -->
                     <img src="https://cdn-icons-png.flaticon.com/128/159/159604.png" alt="Show password" id="toggleNewPassword" 
-                         onclick="EyeSwap('nuevaPassword', 'toggleNewPassword')">
+                         onclick="EyeSwap('nuevaPassword', 'toggleNewPassword')"> <!-- Ojo que alterna mostrar/ocultar -->
                 </div>
-                <div class="password-container">
-                    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password">
+
+                <div class="password-container"> <!-- Contenedor del tercer campo -->
+                    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password"> <!-- Input para confirmar contraseña -->
                     <img src="https://cdn-icons-png.flaticon.com/128/159/159604.png" alt="Show password" id="toggleConfPassword"
-                         onclick="EyeSwap('confirmPassword', 'toggleConfPassword')">
+                         onclick="EyeSwap('confirmPassword', 'toggleConfPassword')"> <!-- Ojo que alterna mostrar/ocultar -->
                 </div>
-                <div id="cAlerta" style="display:none; margin-top:10px;"></div>
-                <button type="submit" onclick="BOnClick(event);">Change Password</button>
+
+                <div id="cAlerta" style="display:none; margin-top:10px;"></div> <!-- Mensaje oculto (para alertas o errores) -->
+
+                <button type="submit" onclick="BOnClick(event);">Change Password</button> <!-- Botón que ejecuta función JS al hacer clic -->
             </form>
         </div>
     </body>
 </html>
+
