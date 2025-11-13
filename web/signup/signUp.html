@@ -9,10 +9,12 @@
 </head>
 <body>
   <div class="container">
+    <!-- Logo that links back to homepagee -->
     <a href="../index.html"><img id="logo" src="../logo.png" alt="Logo"></a>
 
     <div id="form">
-      <h1 id="titulo">SIGN UP</h1>
+        <h1 id="titulo">SIGN UP</h1>
+      <!-- Sign-up form -->
       <form id="signUpForm">
         <div class="fila">
           <div class="campo">
@@ -65,6 +67,7 @@
           <div class="campo">
             <label for="Password">Password</label>
             <input type="password" id="Password" name="Password" placeholder="Password">
+            <!-- Button to show/hide password -->
             <button type="button" class="toggle-password" data-target="Password">
               <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Show">
             </button>
@@ -72,16 +75,20 @@
           <div class="campo">
             <label for="ConfirmPassword">Confirm Password</label>
             <input type="password" id="ConfirmPassword" name="ConfirmPassword" placeholder="Confirm Password">
+            <!-- Button to show/hide password -->
             <button type="button" class="toggle-password" data-target="ConfirmPassword">
               <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Show">
             </button>
           </div>
         </div>
 
+        <!-- Message box for errors/success -->
         <div id="responseMsgSignUp" style="display:none;"></div>
 
+        <!-- Submit button -->
         <button type="submit">REGISTER</button>
 
+        <!-- Link to login page -->
         <div id="registro">
           Already have an account?
           <a href="../signin/signin.html">Log in</a>
@@ -92,17 +99,20 @@
 
 <script>
   // ===== Field Validation on Blur =====
+  // Function to validate input fields when the user leaves them
   function addBlurValidation(id, regex, errorMessage) {
     const field = document.getElementById(id);
     field.addEventListener("blur", function() {
       const msgBox = document.getElementById("responseMsgSignUp");
       const value = field.value.trim();
 
+      // Hide message if the field is empty
       if (value === "") {
         msgBox.style.display = "none";
         return;
       }
 
+      // If the value does not match regex, show error
       if (!regex.test(value)) {
         msgBox.className = "error";
         msgBox.textContent = "Error: " + errorMessage;
@@ -113,6 +123,7 @@
     });
   }
 
+  // Adding validation for each field
   addBlurValidation("FirstName", /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,50}$/, "First name must contain only letters and spaces (2–50 characters).");
   addBlurValidation("MiddleInitial", /^[A-Za-zÁÉÍÓÚáéíóúñÑ]{1}$/, "Middle initial can only be one letter");
   addBlurValidation("LastName", /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,50}$/, "Last name must contain only letters and spaces (2–50 characters).");
@@ -121,27 +132,30 @@
   addBlurValidation("State", /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,50}$/, "State must contain only letters and spaces (2–50 characters).");
   addBlurValidation("Zip", /^[0-9]{4,10}$/, "ZIP Code must contain between 4 and 10 digits.");
   addBlurValidation("Phone", /^[0-9]{9,15}$/, "Phone number must contain between 9 and 15 digits.");
-  addBlurValidation("Email", /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Please enter a valid email (example@domain.com).");
-  addBlurValidation("Password", /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d._:;!@#$%^&*()\-\+=\{\}\[\]|<>?,\\/]{8,255}$/, "Password must have at least 8 characters, one uppercase letter, one number, and one symbol.");
+  addBlurValidation("Email", /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,255}$/, "Please enter a valid email (example@domain.com) with maximum 255 characters.");
+  addBlurValidation("Password", /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,255}$/, "Password must have at least 8 characters, one uppercase letter, one number, and one symbol.");
 
   // ===== Show/Hide Password =====
+  // Toggles password visibility when icon is clicked
   document.querySelectorAll(".toggle-password").forEach(btn => {
     btn.addEventListener("click", () => {
       const targetId = btn.getAttribute("data-target");
       const input = document.getElementById(targetId);
       const img = btn.querySelector("img");
 
+      // Switch between password and text type
       if (input.type === "password") {
         input.type = "text";
-        img.src = "https://cdn-icons-png.flaticon.com/512/565/565655.png";
+        img.src = "https://cdn-icons-png.flaticon.com/512/565/565655.png"; // Eye open
       } else {
         input.type = "password";
-        img.src = "https://cdn-icons-png.flaticon.com/512/159/159604.png";
+        img.src = "https://cdn-icons-png.flaticon.com/512/159/159604.png"; // Eye closed
       }
     });
   });
 
-  // ===== Constructor de Customer =====
+  // ===== Customer Constructor =====
+  // Object model for a customer
   function Customer(id, firstName, middleInitial, lastName, street, city, state, zip, phone, email, password) {
     this.id = id;
     this.firstName = firstName;
@@ -156,6 +170,7 @@
     this.password = password;
   }
 
+  // Convert customer data into XML format
   Customer.prototype.toXML = function() {
     return `
       <customer>
@@ -174,18 +189,20 @@
     `.trim();
   };
 
-  // ===== Guardar email en sesión =====
+  // ===== Save email in session =====
+  // Stores the user's email in sessionStorage
   function guardarDatosSesion(email) {
     sessionStorage.setItem("email", email);
-    console.log("Email almacenado en sesión: " + email);
+    console.log("Email stored in session: " + email);
   }
 
-  // ===== Manejar envío del formulario =====
+  // ===== Handle form submission =====
   function handleSignUpOnClick(e) {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submit
     const msgBox = document.getElementById("responseMsgSignUp");
     const titulo = document.getElementById("titulo");
 
+    // Get values from all inputs
     const firstName = document.getElementById("FirstName").value.trim();
     const middleInitial = document.getElementById("MiddleInitial").value.trim();
     const lastName = document.getElementById("LastName").value.trim();
@@ -199,21 +216,21 @@
     const confirmPassword = document.getElementById("ConfirmPassword").value.trim();
 
     try {
+      // Check that all fields are filled
       if (!firstName || !lastName || !street || !city || !state || !zip || !phone || !email || !password || !confirmPassword) {
         throw new Error("All fields must be completed.");
       }
 
+      // Regex validation patterns
       const nameRegex = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,50}$/;
       const miRegex = /^[A-Za-zÁÉÍÓÚáéíóúñÑ]{1}$/;
       const streetRegex = /^[A-Za-zÁÉÍÓÚáéíóúñÑ0-9\s]{2,90}$/;
       const zipRegex = /^[0-9]{4,10}$/;
       const phoneRegex = /^[0-9]{9,15}$/;
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,100}$/;
-      const passRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d._:;!@#$%^&*()\-\+=\{\}\[\]|<>?,\\/]{8,255}$/;
+      const passRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,255}$/;
 
-
-
-
+      // Validation for each field
       if (!nameRegex.test(firstName)) throw new Error("First name can only contain letters and spaces (2–50 characters).");
       if (!nameRegex.test(lastName)) throw new Error("Last name can only contain letters and spaces (2–50 characters).");
       if (!miRegex.test(middleInitial)) throw new Error("The middle initial can only be one letter.");
@@ -226,37 +243,42 @@
       if (!passRegex.test(password))throw new Error("Password must be between 8 and 255 characters, include at least one uppercase letter, one number, and  symbol .");
       if (password !== confirmPassword) throw new Error("Passwords do not match.");
 
+      // Create new customer object
       const id = Date.now();
       const customer = new Customer(id, firstName, middleInitial, lastName, street, city, state, zip, phone, email, password);
       const xml = customer.toXML();
       sessionStorage.setItem("customer.id", customer.id);
 
-      // ===== Enviar datos al servidor =====
+      // ===== Send data to server =====
       fetch("/CRUDBankServerSide/webresources/customer", {
         method: 'POST',
         headers: { 'Content-Type': 'application/xml' },
         body: xml
       })
       .then(response => {
-        if (response.status === 403) throw new Error("Ese correo electrónico ya está en uso.");
-        if (response.status === 500) throw new Error("No ha sido posible conectar con el servidor.");
-        if (!response.ok) throw new Error("Ha ocurrido un error inesperado.");
+        // Handle different server responses
+        if (response.status === 403) throw new Error("That email is already in use.");
+        if (response.status === 500) throw new Error("It was not possible to connect to the server.");
+        if (!response.ok) throw new Error("An unexpected error occurred.");
         return response.text();
       })
       .then(text => {
-        console.log("Respuesta del servidor:", text);
+        // If registration successful
+        console.log("Server response:", text);
         guardarDatosSesion(email);
 
-        msgBox.textContent = '✅ Usuario registrado correctamente ✅';
+        msgBox.textContent = '✅ User successfully registered ✅';
         msgBox.style.display = 'block';
         msgBox.style.backgroundColor = 'green';
         titulo.style.backgroundColor = 'green';
 
+        // Redirect to login page after 1 second
         setTimeout(() => {
           window.location.href = "../signin/signin.html"; 
         }, 1000);
       })
       .catch(error => {
+        // Handle server or fetch errors
         console.error(error);
         msgBox.textContent = '✖️ ' + error.message;
         msgBox.style.display = 'block';
@@ -265,6 +287,7 @@
       });
 
     } catch (error) {
+      // Handle any local validation errors
       msgBox.textContent = "✖️ " + error.message;
       msgBox.style.display = "block";
       msgBox.style.backgroundColor = 'red';
@@ -272,6 +295,7 @@
     }
   }
 
+  // Event listener for form submission
   document.getElementById("signUpForm").addEventListener("submit", handleSignUpOnClick);
 </script>
 </body>
