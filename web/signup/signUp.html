@@ -122,7 +122,7 @@
   addBlurValidation("Zip", /^[0-9]{4,10}$/, "ZIP Code must contain between 4 and 10 digits.");
   addBlurValidation("Phone", /^[0-9]{9,15}$/, "Phone number must contain between 9 and 15 digits.");
   addBlurValidation("Email", /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Please enter a valid email (example@domain.com).");
-  addBlurValidation("Password", /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-={}:;<>?]).{8,90}$/, "Password must have at least 8 characters, one uppercase letter, one number, and one symbol.");
+  addBlurValidation("Password", /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d._:;!@#$%^&*()\-\+=\{\}\[\]|<>?,\\/]{8,255}$/, "Password must have at least 8 characters, one uppercase letter, one number, and one symbol.");
 
   // ===== Show/Hide Password =====
   document.querySelectorAll(".toggle-password").forEach(btn => {
