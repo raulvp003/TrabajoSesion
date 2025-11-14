@@ -135,7 +135,7 @@
   addBlurValidation("State", /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,50}$/, "State must contain only letters and spaces (2–50 characters).");
   addBlurValidation("Zip", /^[0-9]{4,10}$/, "ZIP Code must contain between 4 and 10 digits.");
   addBlurValidation("Phone", /^[0-9]{9,15}$/, "Phone number must contain between 9 and 15 digits.");
-  addBlurValidation("Email", /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,255}$/, "Please enter a valid email (example@domain.com) with maximum 255 characters.");
+  addBlurValidation("Email", /^(?=.{1,255}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,255}$/, "Please enter a valid email (example@domain.com) with maximum 255 characters.");
   addBlurValidation("Password", /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,255}$/, "Password must have at least 8 characters, one uppercase letter, one number, and one symbol.");
 
   // ===== Show/Hide Password =====
@@ -230,7 +230,7 @@
       const streetRegex = /^[A-Za-zÁÉÍÓÚáéíóúñÑ0-9\s]{2,90}$/;
       const zipRegex = /^[0-9]{4,10}$/;
       const phoneRegex = /^[0-9]{9,15}$/;
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,100}$/;
+      const emailRegex = /^(?=.{1,255}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,255}$/;
       const passRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,255}$/;
 
       // Validation for each field
