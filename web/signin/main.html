@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
     <link rel="icon" type="image/png" href="../logo.png">
+    <link rel="stylesheet" href="../darkMode.css"><!-- Archivo CSS alternativo. Modo oscuro. -->
+    <script type="text/javascript" src="../darkMode.js" defer></script><!-- Archivo js alternativo. Modo oscuro. -->
     <style type="text/css">
         body{
             /*border: 1px solid red;*/
@@ -36,6 +38,7 @@
             border-radius: 0px;
             box-shadow: 0 0 10px white;
             transition: transform 0.5s;
+            z-index: 2;
         }
         .imagen:hover{
             transform: scale(1.1);
@@ -50,7 +53,7 @@
         }
 
         .ajustes{
-            border: 1px solid #ccc;
+            border: 1px 10px solid #ccc;
             border-radius: 10px;
             background-color: #E3D8DE;
             color: #403d3d;
@@ -58,7 +61,7 @@
             
             display: flex;
             justify-content: center;
-            
+            margin-right: 100px; 
             font-size: 20px;
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;  
@@ -141,6 +144,7 @@
 
 
 <body>
+    <img id="darkModeToggle" src="../moon.png" alt="dark mode">
     <div class="cabecera">
         <img class="imagen" src="../logo.png">
         <div class="usuario" id="usuario">

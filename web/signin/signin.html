@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
     <link rel="icon" type="image/png" href="../logo.png">
+    <link rel="stylesheet" href="../darkMode.css"><!-- Archivo CSS alternativo. Modo oscuro. -->
+    <script type="text/javascript" src="../darkMode.js" defer></script><!-- Archivo js alternativo. Modo oscuro. -->
     <style type="text/css">
         body {
             /*border: 1px solid red;*/          /*height: 100% -> Mide respecto al contenedor padre*/
@@ -244,6 +246,7 @@
 
 
 <body>
+    <img id="darkModeToggle" src="../moon.png" alt="dark mode">
 <div class="contenedor">
     <div class="panel">
 
@@ -473,7 +476,8 @@
 
         //Extrae los datos del XML
         //getElementByTagName -> Busca elementos por el nombre de su etiqueta (tag HTML o XML).
-        const id = xmlDoc.getElementsByTagName("id")[0].textContent;
+        const customerNode = xmlDoc.getElementsByTagName("customer")[0];
+        const id = customerNode.querySelector(":scope > id").textContent.trim();
         const firstName = xmlDoc.getElementsByTagName("firstName")[0].textContent;
         const lastName = xmlDoc.getElementsByTagName("lastName")[0].textContent;
         const middleInitial = xmlDoc.getElementsByTagName("middleInitial")[0].textContent;
@@ -503,6 +507,8 @@
         sessionStorage.setItem("customer.phone", customer.phone);
         sessionStorage.setItem("customer.email", customer.email);
         sessionStorage.setItem("customer.password", customer.password);
+        console.log("UserId en sessionStorage:", sessionStorage.getItem("customer.id"));
+
     }
     
     //USABILIDAD:
