@@ -106,26 +106,50 @@ function fetchAndUpdatePassword(oldPassword, newPassword) {
             if (OGpass !== oldPassword)
                 throw new Error("The old password does not match");
 
+            const Customer = {
+                city: userCity,
+                email: userEmail,
+                firstName: userFirstName,
+                id: userId,
+                lastName: userLastName,
+                middleInitial: userMiddleInitial,
+                password: newPassword,
+                phone: userPhone,
+                state: userState,
+                street: userStreet,
+                zip: userZip
+                
+            }
+            console.log(Customer);
             
-
-            // Build new XML with updated password
+            const customerJson=JSON.stringify(Customer);
+            console.log(customerJson);
             const xmlData = `
                 <customer>
-                    <city>${UserCity}</city>
-                    <email>${UserEmail}</email>
-                    <firstName>${UserFirstName}</firstName>
+                    <city>${userCity}</city>
+                    <email>${userEmail}</email>
+                    <firstName>${userFirstName}</firstName>
                     <id>${userId}</id>
-                    <lastName>${UserLastName}</lastName>
-                    <middleInitial>${UserMiddleInitial}</middleInitial>
-                    <password>${OGpass}</password>
-                    <phone>${UserPhone}</phone>
-                    <state>${UserState}</state>
-                    <street>${UserStreet}</street>
-                    <zip>${UserZip}</zip>
+                    <lastName>${userLastName}</lastName>
+                    <middleInitial>${userMiddleInitial}</middleInitial>
+                    <password>${newPassword}</password>
+                    <phone>${userPhone}</phone>
+                    <state>${userState}</state>
+                    <street>${userStreet}</street>
+                    <zip>${userZip}</zip>
                 </customer>
             `.trim();
-
+            
+            
+            /* dejo la parte de enviarlo como JSON comentada ya que me devuelve error 500 "internal server error"
             // Send PUT request to update the customer password
+            return fetch('/CRUDBankServerSide/webresources/customer', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', },
+                body: customerJson
+            })*/
+    
+     // Send PUT request to update the customer password
             return fetch('/CRUDBankServerSide/webresources/customer', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/xml' },
