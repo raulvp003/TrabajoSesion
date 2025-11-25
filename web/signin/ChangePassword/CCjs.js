@@ -1,3 +1,13 @@
+/*Realizar las siguientes modificaciones sobre el código de su aplicación. Las modificaciones se realizarán sobre una rama llamada eval_NOMBRE (donde NOMBRE es su propio nombre) creada a partir del último commit de su rama principal:
+
+Mediante un comentario explicar el bucle de la línea 83 de CCjs.js e indicar cuántas iteraciones hace dicho bucle.
+Eliminar la petición GET de los datos del customer y el procesado de la respuesta. Obtener los datos del Customer a enviar del sessionStorage.
+Encapsular los datos del formulario en un objeto Customer antes de formatearlos en XML/JSON y enviarlos al servidor.
+Enviar datos en JSON en el fetch.
+Al finalizar, generar y entregar el nuevo archivo .WAR*/
+
+
+
 // Toggle password visibility for a given input field and change the eye icon accordingly
 function EyeSwap(inputId, iconId) {
     const input = document.getElementById(inputId); // Get the password input element
@@ -58,64 +68,60 @@ function BOnClick(event) {
 // Fetch current user info, validate old password, and update with new password
 function fetchAndUpdatePassword(oldPassword, newPassword) {
     const msgBox = document.getElementById("cAlerta");
-    const userId = sessionStorage.getItem("customer.id"); // Get current user's ID from session storage
-
-    // Fetch all customers from server
-    fetch('/CRUDBankServerSide/webresources/customer', { method: 'GET' })
-        .then(response => {
-            if (!response.ok) { // Handle HTTP errors
-                return response.text().then(text => {
-                    throw new Error(`HTTP Error ${response.status}: ${text}`);
-                });
-            }
-            return response.text(); // Return response as text (XML string)
-        })
-        .then(xmlString => {
-            const parser = new DOMParser();
-            const xmlDoc = parser.parseFromString(xmlString, "application/xml"); // Parse XML string
-            const customers = xmlDoc.getElementsByTagName("customer"); // Get all <customer> nodes
-
-            console.log("User ID buscado:", userId);
-            console.log("XML recibido:", xmlString);
-
-            // Find the current customer node by matching user ID
+    
+    const userCity = sessionStorage.getItem("customer.city"); // Get current user's ID from session storage
+    const userEmail = sessionStorage.getItem("customer.email");
+    const userFirstName = sessionStorage.getItem("customer.firstName");
+    const userId = sessionStorage.getItem("customer.id");
+    const userLastName = sessionStorage.getItem("customer.lastName");
+    const userMiddleInitial = sessionStorage.getItem("customer.middleInitial");
+    const OGpass = sessionStorage.getItem("customer.password");
+    const userPhone = sessionStorage.getItem("customer.phone");
+    const userState = sessionStorage.getItem("customer.state");
+    const userStreet = sessionStorage.getItem("customer.street");
+    const userZip = sessionStorage.getItem("customer.zip");
+        /*
+         ( Dejo el bucle comentado  ya que al recibir los datos de la sesión no es necesario usarlo)
             let foundCustomer = null;
-            for (let i = 0; i < customers.length; i++) {
-                const idNode = customers[i].querySelector(":scope > id"); // Direct child <id> of customer
+            El proposito de este bucle es encontrar al usuario que inició sesión anteriormente en el login,así el bucle recorre todos los clientes 
+             recibidos del servidor y compara sus ids con la id obtenida en los datos de sesion para averiguar a que cliente hay que cambiar
+             la contraseña. Actualiza la variable foundCostumer con los datos del usuario deseado. Si el bucle no encuentra el usuario 
+             tendrá tantas iteraciones como clientes haya en la base de datos, sin embargo cuando encuentre el cliente que buscamos detendrá la 
+             iteración gracias al break
+             
+            for (let i = 0; i < customers.length; i++) {   
+                const idNode = customers[i].querySelector(":scope > id"); // Direct child id of customer
                 if (idNode && idNode.textContent.trim() === userId) {
                     foundCustomer = customers[i];
                     break;
                 }
             }
-
-            if (!foundCustomer)
-                throw new Error("Customer not found");
-
-            // Get current password from XML
-            const OGpass = foundCustomer.querySelector(":scope > password")?.textContent.trim() || null;
+            */
+             
+                
+            
             console.log(OGpass);
             if (!OGpass)
                 throw new Error("Customer has no registered password");
             if (OGpass !== oldPassword)
                 throw new Error("The old password does not match");
 
-            // Helper function to get text content of a child node, or empty string if missing
-            const getNodeText = (tag) => foundCustomer.querySelector(`:scope > ${tag}`)?.textContent.trim() || "";
+            
 
             // Build new XML with updated password
             const xmlData = `
                 <customer>
-                    <city>${getNodeText("city")}</city>
-                    <email>${getNodeText("email")}</email>
-                    <firstName>${getNodeText("firstName")}</firstName>
+                    <city>${UserCity}</city>
+                    <email>${UserEmail}</email>
+                    <firstName>${UserFirstName}</firstName>
                     <id>${userId}</id>
-                    <lastName>${getNodeText("lastName")}</lastName>
-                    <middleInitial>${getNodeText("middleInitial")}</middleInitial>
-                    <password>${newPassword}</password>
-                    <phone>${getNodeText("phone")}</phone>
-                    <state>${getNodeText("state")}</state>
-                    <street>${getNodeText("street")}</street>
-                    <zip>${getNodeText("zip")}</zip>
+                    <lastName>${UserLastName}</lastName>
+                    <middleInitial>${UserMiddleInitial}</middleInitial>
+                    <password>${OGpass}</password>
+                    <phone>${UserPhone}</phone>
+                    <state>${UserState}</state>
+                    <street>${UserStreet}</street>
+                    <zip>${UserZip}</zip>
                 </customer>
             `.trim();
 
@@ -124,8 +130,8 @@ function fetchAndUpdatePassword(oldPassword, newPassword) {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/xml' },
                 body: xmlData
-            });
-        })
+            })
+        
         .then(response => {
             if (!response.ok)
                 throw new Error('Error updating password on server'); // Check if server accepted the update
