@@ -126,21 +126,27 @@
     });
   }
 
-  // Adding validation for each field
+  // Adding validation for each field   
+  //una validacion que funcione para street y que se puedan poner letras numeros comas y espacios: 
   addBlurValidation("FirstName", /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,50}$/, "First name must contain only letters and spaces (2–50 characters).");
   addBlurValidation("MiddleInitial", /^[A-Za-zÁÉÍÓÚáéíóúñÑ]{1}$/, "Middle initial can only be one letter");
   addBlurValidation("LastName", /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,50}$/, "Last name must contain only letters and spaces (2–50 characters).");
-  addBlurValidation("Street", /^[A-Za-zÁÉÍÓÚáéíóúñÑ0-9\s]{2,90}$/, "Street can contain letters, numbers, and spaces (2–90 characters).");
+  addBlurValidation("Street",  /^[a-zA-Z0-9,\s]{2,90}$/,"Street can contain letters, numbers, spaces and commas (2–90 characters).");
   addBlurValidation("City", /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,50}$/, "City must contain only letters and spaces (2–50 characters).");
   addBlurValidation("State", /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,50}$/, "State must contain only letters and spaces (2–50 characters).");
   addBlurValidation("Zip", /^[0-9]{4,10}$/, "ZIP Code must contain between 4 and 10 digits.");
   addBlurValidation("Phone", /^[0-9]{9,15}$/, "Phone number must contain between 9 and 15 digits.");
   addBlurValidation("Email", /^(?=.{1,255}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,255}$/, "Please enter a valid email (example@domain.com) with maximum 255 characters.");
   addBlurValidation("Password", /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,255}$/, "Password must have at least 8 characters, one uppercase letter, one number, and one symbol.");
-
+//hacer 
   // ===== Show/Hide Password =====
   // Toggles password visibility when icon is clicked
-  document.querySelectorAll(".toggle-password").forEach(btn => {
+  /*este bucle lo que hace es que con el querySelectorAll selecciona  los elementos del CSS que tienen la clase .toggle-password, esto devuelve una nodelist que es algo similar a un array
+   el cual se recorre con un foreach y despues se le aplica la accion con el EventListener
+   que es un escuchador de eventos que mediante el parameetro btn que es el boton escucha el click del usuario sobre el boton y hace que el ojo este cerradoo o abierto
+
+     */
+  document.querySelectorAll(".toggle-password").forEach(btn => { 
     btn.addEventListener("click", () => {
       const targetId = btn.getAttribute("data-target");
       const input = document.getElementById(targetId);
@@ -173,22 +179,24 @@
     this.password = password;
   }
 
-  // Convert customer data into XML format
-  Customer.prototype.toXML = function() {
+  // Convert customer data into JSON format
+  Customer.prototype.toJson = function() {
     return `
-      <customer>
-        <id>${this.id}</id>
-        <firstName>${this.firstName}</firstName>
-        <middleInitial>${this.middleInitial}</middleInitial>
-        <lastName>${this.lastName}</lastName>
-        <street>${this.street}</street>
-        <city>${this.city}</city>
-        <state>${this.state}</state>
-        <zip>${this.zip}</zip>
-        <phone>${this.phone}</phone>
-        <email>${this.email}</email>
-        <password>${this.password}</password>
-      </customer>
+  {
+	"customer": {
+		"id": "${this.id}",
+		"firstName": "${this.firstName}",
+		"middleInitial": "${this.middleInitial}",
+		"lastName": "${this.lastName}",
+		"street": "${this.street}",
+		"city": "${this.city}",
+		"state": "${this.state}",
+		"zip": "${this.zip}",
+		"phone": "${this.phone}",
+		"email": "${this.email}",
+		"password": "${this.password}"
+	}
+}
     `.trim();
   };
 
@@ -227,7 +235,7 @@
       // Regex validation patterns
       const nameRegex = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,50}$/;
       const miRegex = /^[A-Za-zÁÉÍÓÚáéíóúñÑ]{1}$/;
-      const streetRegex = /^[A-Za-zÁÉÍÓÚáéíóúñÑ0-9\s]{2,90}$/;
+      const streetRegex = /^[a-zA-Z0-9,\s]{2,90}$/;
       const zipRegex = /^[0-9]{4,10}$/;
       const phoneRegex = /^[0-9]{9,15}$/;
       const emailRegex = /^(?=.{1,255}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,255}$/;
@@ -237,7 +245,7 @@
       if (!nameRegex.test(firstName)) throw new Error("First name can only contain letters and spaces (2–50 characters).");
       if (!nameRegex.test(lastName)) throw new Error("Last name can only contain letters and spaces (2–50 characters).");
       if (!miRegex.test(middleInitial)) throw new Error("The middle initial can only be one letter.");
-      if (!streetRegex.test(street)) throw new Error("Street can only contain letters, numbers, and spaces (2–90 characters).");
+      if (!streetRegex.test(street)) throw new Error("Street can only contain letters, number, spaces and commas(2–90 characters).");
       if (!nameRegex.test(city)) throw new Error("City can only contain letters and spaces (2–50 characters).");
       if (!nameRegex.test(state)) throw new Error("State can only contain letters and spaces (2–50 characters).");
       if (!zipRegex.test(zip)) throw new Error("ZIP code must contain between 4 and 10 digits.");
@@ -249,14 +257,15 @@
       // Create new customer object
       const id = Date.now();
       const customer = new Customer(id, firstName, middleInitial, lastName, street, city, state, zip, phone, email, password);
-      const xml = customer.toXML();
+      const json = customer.toJson();
       sessionStorage.setItem("customer.id", customer.id);
 
       // ===== Send data to server =====
       fetch("/CRUDBankServerSide/webresources/customer", {
         method: 'POST',
-        headers: { 'Content-Type': 'application/xml' },
-        body: xml
+        headers: { 'Content-Type': 'application/json' },
+        body: json,
+         data: JSON.stringify(customer)
       })
       .then(response => {
         // Handle different server responses
@@ -297,6 +306,7 @@
       titulo.style.backgroundColor = 'red';
     }
   }
+
 
   // Event listener for form submission
   document.getElementById("signUpForm").addEventListener("submit", handleSignUpOnClick);
