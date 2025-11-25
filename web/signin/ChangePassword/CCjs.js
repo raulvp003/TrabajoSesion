@@ -167,6 +167,7 @@ function fetchAndUpdatePassword(oldPassword, newPassword) {
             msgBox.style.display = 'block';
             msgBox.style.backgroundColor = 'green';
             document.getElementById("titulo").style.backgroundColor = 'green';
+            sessionStorage.setItem("customer.password", Customer.password);
             setTimeout(() => { window.location.href = "../main.html"; }, 3000);
         })
         .catch(error => {
