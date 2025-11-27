@@ -1,24 +1,5 @@
 /* Botón flotante modo oscuro */
-#darkModeToggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #999;
-    color: #fff;
-    border: none;
-    padding: 10px 14px;
-    font-size: 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    z-index: 999;
-    transition: 0.3s ease;
-    width: 5vh;
-    height: auto;
-}
 
-#darkModeToggle:hover {
-    background: #333;
-}
 
 /* ACTIVACIÓN DEL MODO OSCURO */
 .dark-mode {
