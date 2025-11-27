@@ -245,7 +245,7 @@
 </head>
 
 
-<body>
+<body onload="ejercicio_clase()">
     <img id="darkModeToggle" src="../moon.png" alt="dark mode">
 <div class="contenedor">
     <div class="panel">
@@ -336,6 +336,8 @@
 
     const verContrasenya = document.getElementById("verContrasenya");
     const formulario = document.getElementById("formulario");
+    
+
     
     siguiente.addEventListener("click", () =>{
         /*trim() -> elimina los espacios en blanco al principio y al final de una cadena (string)*/
@@ -544,6 +546,48 @@
                 verContrasenya.click();
         }
     });
+    
+    
+    function ejercicio_clase (){
+        const x = document.getElementsByTagName("input");
+        const y = x.length;
+        //const y = document.getElementsByTagName("input")[1];
+        for(var i =0; i<y; i++){
+            x[i].style.border = "1px solid blue";
+            x[i].style.fontSize = "1.25rem";
+        }
+        
+        //x.style.border = "1px solid red";
+        //x.style.backgroundColor = "green";
+        //x.style.fontSize = "1.25rem";
+        
+        comprobarUsuario();
+    }
+    
+    function comprobarUsuario(){
+        const u = document.getElementById("email");
+        const V = sessionStorage.setItem("customer.email", customer.email).value.trim();
+        
+        if(v){
+            u.innerHTML = "asdasdas";
+        }
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 </script>
 
 </body>
