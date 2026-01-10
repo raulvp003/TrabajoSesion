@@ -5,432 +5,101 @@
     <meta charset="UTF-8">
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
     <link rel="icon" type="image/png" href="../logo.png">
+    <link rel="stylesheet" href="../signup/CSSlogin.css">
+
     <link rel="stylesheet" href="../darkMode.css"><!-- Archivo CSS alternativo. Modo oscuro. -->
     <script type="text/javascript" src="../darkMode.js" defer></script><!-- Archivo js alternativo. Modo oscuro. -->
-    <style type="text/css">
-        body {
-            /*border: 1px solid red;*/          /*height: 100% -> Mide respecto al contenedor padre*/
-            height: 99.8vh;                   /*height: 100vh -> Mide respecto al viewport (pantalla)*/           
-            margin: 0;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;                       
-
-            background-image: url("https://wallpapers.com/images/hd/stock-market-background-wdb83di320cjbktg.jpg");
-        }
-
-        .contenedor{
-            height: 425px;
-            width: 1050px;
-            border: 7.5px double white;
-            border-radius: 30px;
-            background-color: #E3D8DE;
-
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            /*align-items: stretch;*/
-            gap: 0px; 
-
-        }
-        .panel{
-            /*border: 1px solid red;*/
-            border-radius: 30px;
-            padding: 1em;
-            flex: 1;
-
-            min-width: 0;               /*Evita que el contenido fuerce el estiramiento del bloque*/
-            overflow-wrap: break-word;  /*Permite cortar palabras largas*/
-
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            
-        }
-
-        .formulario{
-            flex: 1;
-            /*border: 1px solid #5cd710;*/
-
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-
-        .informacion{
-            flex: 4;
-            border: 1px solid #ffffff33;
-            border-radius: 20px;
-            background: #8a8a8bab;
-            color: white;
-
-            display: flex;
-            flex-direction: column;
-            
-            font-family: Tahoma;
-
-            box-shadow: 0 0 20px #8a8a8bab;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .informacion:hover{
-            transform: translateY(-5px);
-            box-shadow: 0 0 50px lightblue;
-        }
-        .informacion h1{
-            /*border: 1px solid blueviolet;*/
-            letter-spacing: 1px;
-            margin: 10px 0;
-            color: black;
-            background-color: lightblue;
-            padding: 0px 30px;
-        }
-        .informacion p{
-            /*border: 1px solid blueviolet;*/
-            font-size: 15px;
-            color: white;
-            padding: 0px 30px;
-        }
-        .informacion img{
-            width: 100px; 
-            height: 100px;
-            border-radius: 0px;
-            object-fit: cover;
-            box-shadow: 0 0 70px white;
-            transition: transform 0.5s;
-        }
-        .informacion img:hover{
-            transform: scale(1.1);
-        }
-
-
-        /*.guardarfieldset{
-            height: 175px;
-            border: 1px solid orange;
-            display: flex;
-        }
-        .marco{
-            flex: 1;
-            border: 1px solid whitesmoke;
-            border-radius: 30px;
-            
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }*/
-        .guardarfieldset{
-            height: 175px;
-            /*border: 1px solid orange;*/
-            
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .marco{
-            height: 100%;
-            border: 1px solid white;
-            border-radius: 30px;
-            
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-
-        /*.datos{
-            border: 1px solid yellow;
-        }*/
-        .inputTexto{
-            height: 50px;
-            width: 100%;
-            box-sizing: border-box;
-
-            border: 2px solid #ccc;
-            border-radius: 30px;
-            background-color: white;          
-            color: #222;                        
-            
-            padding: 0px 15px;
-            font-size: 16px;
-            font-family: 'Segoe UI', sans-serif;
-
-            transition: border-color 0.5s, box-shadow 0.5s;
-        }
-        .inputTexto:hover{
-            border-color: #999;
-            background-color: lightblue;
-            box-shadow: 0 0 20px lightblue;
-        }
-        .inputTexto:focus{
-            border-color: lightblue;                  
-            outline: none;                            /* Elimina el borde azul del navegador */
-            box-shadow: 0 0 20px #00bfffe3;         
-        }
-        .inputTexto::placeholder{
-            color: #888;
-            font-style: italic;
-        }
-
-        .verContrasenya{
-            /*border: 1px solid blue;*/
-            margin: 5px 0px;
-            padding: 0 10px;
-        }
-
-
-        .botones{
-            /*border: 1px solid aqua;*/
-            padding: 0 15px;
-            flex: 1;
-
-            display: flex;
-            /*justify-content: space-evenly;*/
-            justify-content: space-between; 
-            align-items: center;           
-            gap: 20px;  
-            z-index: 2;
-        }
-        .boton{
-            border: 1px solid lightblue;
-            border-radius: 10px;
-            background-color: lightblue;      
-            color: #403d3d;
-
-            padding: 10px 25px;
-            font-size: 15px;
-            font-weight: bold;
-            font-family: 'Segoe UI', sans-serif;
-            
-            cursor: pointer;
-            transition: background-color 0.5s, transform 0.5s, box-shadow 0.5s;
-        }
-        .boton:hover {
-            background-color: #009acd77;      
-            transform: scale(1.05);        
-            box-shadow: 0 0 30px #00bfffb3;
-        }
-        .boton:active {
-            transform: scale(0.97);         /* Efecto de "click" */
-        }
-
-
-        .ocultar {
-            display: none;
-        }
-        .mostrar {
-            display: block;
-        }
-
-
-        input.errorValidacion{
-            border: 2px solid #ee0c0c;
-        }
-        input.errorValidacion:hover{
-            border-color: red;
-            box-shadow: 0 0 20px red;
-        }
-        input.errorValidacion:focus{
-            border-color: red;
-            box-shadow: 0 0 20px red;
-        }
-        div.textoError{
-            /*border: 1px solid red;*/
-            display: flex;
-            flex-direction: column;
-            text-align: start;
-            color: red;
-            padding: 0px 15px;
-        }
-    </style>
 </head>
-
 
 <body>
     <img id="darkModeToggle" src="../moon.png" alt="dark mode">
-<div class="contenedor">
-    <div class="panel">
-
-        <div class="informacion mostrar" id="bienvenido0" style="text-align: center; padding: 20px 0px;">
-            <a href="../index.html"> <!-- Index -->
-                <img src="../logo.png">
-            </a>
-            <h1>Sign In</h1>
+    <div class="container">
+        <!-- Logo that links back to homepagee -->
+        <a href="../index.html"><img id="logo" src="../logo.png" alt="Logo"></a>
+        <div id="form">
+            <h1 id="titulo">SIGN IN</h1>
             <p>Enter your email address and password to access all your bank account information.</p>
-        </div>
-
-        <div class="informacion ocultar" id="bienvenido1" style="text-align: center; padding: 20px 0px;">
-            <a href="../index.html"> <!-- Index -->
-                <img src="../logo.png">
-            </a>
-            <h1>WELCOME</h1>
-            <p id="mostrarCorreo"></p>
-        </div>
-
-        <div class="botones">
-            <!--<button type="button" onclick="window.location.href= 'https://www.google.com/'">Inicio</button>-->
-            <a href="../index.html" class="boton mostrar" id="inicio">Home</a> <!-- Index -->
-            <button type="button" class="boton ocultar" id="atras">Back</button>
-        </div>
-
-    </div>
-
-    <div class="panel">
-        
-        <form class="formulario" id="formulario" action="/CRUDBankServerSide/webresources/customer/sigin/" enctype="application/x-www-form-urlencoded" accept-charset="UTF-8">
-            <div class="informacion" style="justify-content: center; padding: 20px 0px;">
-                <div class="guardarfieldset">
-                    <fieldset class="marco">
-                        <legend id="legendcampo">Email</legend>
-                        <div class="datos mostrar" id="cajaEmail">
-                            <input type="email" class="inputTexto" id="email" name="email" placeholder="User_1234@gmail.com" required>
-                            <div class="textoError" id="textoErrorE"></div>
-                        </div>
-
-                        <div class="datos ocultar" id="cajaPassword"> 
-                            <input type="password" class="inputTexto" id="password" name="password" placeholder="************" required>
-                            <div class="verContrasenya">
-                                <input type="checkbox" id="verContrasenya" name="verContrasenya" style="cursor: pointer;">
-                                <label for="verContrasenya" style="cursor: pointer;">Show password</label>
-                            </div>
-                          
-                            <div class="textoError" id="textoErrorP"></div>                            
-                        </div>
-                    </fieldset>
+            <!-- Sign-up form -->
+            <form id="formulario" action="/CRUDBankServerSide/webresources/customer/sigin/" enctype="application/x-www-form-urlencoded" accept-charset="UTF-8">
+                <div class="campo">
+                    <label for="Email">Email</label>
+                    <input type="email" id="Email" name="Email" placeholder="Email">
                 </div>
-            </div>
-
-            <div class="botones" id="derecho">
-                <a href="../signup/signUp.html" class="boton mostrar" id="crear">Create account</a> <!-- Sign Up -->
-                <!--<button type="button" class="boton">Crear cuenta</button>-->
-                <button type="button" class="boton mostrar" id="siguiente">Next</button>
-                <button type="submit" class="boton ocultar" id="entrar">Login</button>
-            </div>
-        </form>
-
+                <div class="campo">
+                    <label for="Password">Password</label>
+                    <input type="password" id="Password" name="Password" placeholder="Password">
+                    <div class="verContrasenya">
+                        <input type="checkbox" id="verContrasenya" name="verContrasenya" style="cursor: pointer;">
+                        <label for="verContrasenya" style="cursor: pointer;">Show password</label>
+                    </div>
+                </div>
+                <!-- Message box for errors/success -->
+                <div id="responseMsgSignUp" style="display:none;"></div>
+                <!-- Submit button -->
+                <button type="submit">LOGIN</button>
+            </form>
+        </div>
     </div>
-</div>
 
 <script>
-    const legendcampo = document.getElementById('legendcampo');
-    const mostrarCorreo = document.getElementById('mostrarCorreo');
-
-    const cajaEmail = document.getElementById('cajaEmail');
-    const cajaPassword = document.getElementById('cajaPassword');
-
-    const bienvenido0 = document.getElementById('bienvenido0');
-    const bienvenido1 = document.getElementById('bienvenido1');
-
-    const inicio = document.getElementById('inicio');
-    const atras = document.getElementById('atras');
-
-    const crear = document.getElementById('crear');
-    const derecho = document.getElementById('derecho');
-
-    const siguiente = document.getElementById('siguiente');
-    const entrar = document.getElementById('entrar');
-
-    const validacionEmail = document.getElementById("email");
-    const validacionPassword = document.getElementById("password");
-    const textoErrorE = document.getElementById("textoErrorE");
-    const textoErrorP = document.getElementById("textoErrorP");
+    const inputEmail = document.getElementById("Email");
+    const inputPassword = document.getElementById("Password");
+    const responseMsg = document.getElementById("responseMsgSignUp");
 
     const verContrasenya = document.getElementById("verContrasenya");
     const formulario = document.getElementById("formulario");
-    
-    siguiente.addEventListener("click", () =>{
-        /*trim() -> elimina los espacios en blanco al principio y al final de una cadena (string)*/
-        const valorEmail = cajaEmail.querySelector('input').value.trim();
-        const emailRegExp = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}");
-
-
-    if(valorEmail === "" || valorEmail.length > 255 || !emailRegExp.exec(valorEmail)){
-        let mensaje = "";
-
-        if(valorEmail === "")
-            mensaje = "Se deben rellenar el email...";
-        else if(valorEmail.length > 255)
-            mensaje = "El email no puede tener más de 255 caracteres...";
-        else 
-            mensaje = "El email no tiene un formato valido...";
-
-        validacionEmail.classList.add('errorValidacion');
-        textoErrorE.innerHTML = mensaje;
-        return;
-    }
-            
-        legendcampo.textContent = "Password";
-        derecho.style.justifyContent = "flex-end";
-        crear.classList.replace('mostrar','ocultar')
-        ver_nover(cajaEmail, cajaPassword);
-        ver_nover(bienvenido0, bienvenido1);
-        ver_nover(inicio,atras);
-        ver_nover(siguiente,entrar);
-        mostrarCorreo.innerHTML = valorEmail;
-    });
-
-    // Detectar la tecla Enter en el campo email
-    validacionEmail.addEventListener("keydown", function(e) {
-        if (e.key === "Enter") {
-            e.preventDefault(); // evita que se dispare el submit del formulario
-            siguiente.click();  // simula el click en el botón "Siguiente"
-        }
-    });
-
-    atras.addEventListener("click", () =>{
-        validacionEmail.classList.remove('errorValidacion');
-        textoErrorE.innerHTML = "";
-        validacionPassword.classList.remove('errorValidacion');
-        validacionPassword.value = "";
-        textoErrorP.innerHTML = "";
-
-        legendcampo.textContent = "Email";
-        crear.classList.replace('ocultar','mostrar');
-        ver_nover(cajaPassword,cajaEmail);
-        ver_nover(bienvenido1,bienvenido0);
-        ver_nover(atras,inicio);
-        ver_nover(entrar,siguiente);
-        derecho.style.justifyContent = "space-between";
-    });
 
     verContrasenya.addEventListener("change", () => {
         if(verContrasenya.checked)
-            validacionPassword.type = "text";
+            inputPassword.type = "text";
         else
-            validacionPassword.type = "password"; 
+            inputPassword.type = "password"; 
     });
+
+    function mostrarError(mensaje) {
+        responseMsg.textContent = mensaje;
+        responseMsg.classList.add("error");
+        responseMsg.style.display = "block";
+    }
+
 
     formulario.addEventListener("submit", (event) =>{
         event.preventDefault();
+        responseMsg.style.display = "none";
+        responseMsg.className = "";
 
-        const valorEmail = cajaEmail.querySelector('input').value.trim();        
-        const valorPassword = cajaPassword.querySelector('input').value.trim();
+        const email = inputEmail.value.trim();
+        const password = inputPassword.value.trim();
 
-        if(valorPassword.length > 255 || valorPassword.length < 6){
+        const emailRegExp = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}");
+
+        if(email === "" || email.length > 255 || !emailRegExp.exec(email)){
             let mensaje = "";
-            if(valorPassword.length > 255)
+
+            if(email === "")
+                mensaje = "Se deben rellenar el email...";
+            else if(email.length > 255)
+                mensaje = "El email no puede tener más de 255 caracteres...";
+            else 
+                mensaje = "El email no tiene un formato valido...";
+
+            mostrarError(mensaje);
+            return;
+        }
+
+        if(password.length > 255 || password.length < 6){
+            let mensaje = "";
+            if(password.length > 255)
                 mensaje = "La contraseña no puede tener mas de 255 caracteres.";
             else
                 mensaje = "La contraseña debe tener al menos 6 caracteres.";
 
-            validacionPassword.classList.add('errorValidacion');
-            textoErrorP.innerHTML = mensaje;
-            return
+            mostrarError(mensaje);
+            return;
         }
         sendRequestAndProcessResponse();
-        validacionPassword.classList.remove('errorValidacion');
-        validacionPassword.value = "";
-        textoErrorP.innerHTML = "";
     });
 
-    function ver_nover(nover,ver){
-        nover.classList.replace('mostrar','ocultar');
-        ver.classList.replace('ocultar','mostrar');
-    }
-    /*
-    Si la función requiere parámetros, necesitas envolverla en otra función () =>{...} para que no se ejecute al momento de asignarla.
-    Si no requiere parámetros, puedes pasarla directamente sin paréntesis.
-    */
 
     function Customer(id, firstName, lastName, middleInitial, street, city, state, zip, phone, email, password){
         this.id = id;
@@ -447,10 +116,10 @@
     }
                    
     function sendRequestAndProcessResponse (){
-        const valorEmail = cajaEmail.querySelector('input').value.trim();        
-        const valorPassword = cajaPassword.querySelector('input').value.trim();
+        const email = inputEmail.value.trim();
+        const password = inputPassword.value.trim();
 
-        fetch(formulario.action + `${encodeURIComponent(valorEmail)}/${encodeURIComponent(valorPassword)}`, {
+        fetch(formulario.action + `${encodeURIComponent(email)}/${encodeURIComponent(password)}`, {
             method: 'GET', 
             headers: {'Content-Type': 'application/xml'}
         }).then(res => {
@@ -465,7 +134,8 @@
             storeResponseXMLData(data);
             window.location.href = "main.html"; /* Main */
         }).catch(error => {
-            textoErrorP.innerHTML = 'Error: ' + error.message;
+            //textoErrorP.innerHTML = 'Error: ' + error.message;
+            mostrarError(error.message);
         });
     }
 
@@ -511,40 +181,6 @@
         console.log("UserId en sessionStorage:", sessionStorage.getItem("customer.id"));
 
     }
-    
-    //USABILIDAD:
-    document.addEventListener("keydown", function(e){
-        if(e.ctrlKey && e.shiftKey && (e.key === "1" || e.key === "!")){
-            if(inicio.classList.contains('mostrar'))
-                inicio.click();
-        }
-        if(e.ctrlKey && e.shiftKey && (e.key === "2" || e.key === '"')){
-            if(!crear.classList.contains('ocultar'))
-                window.location.href = "../signup/signUp.html"; /* Sign Up */    
-        }
-        if(e.ctrlKey && e.shiftKey && e.key === "ArrowRight"){
-            if (siguiente.classList.contains('mostrar'))
-                siguiente.click();
-        }
-        if(e.ctrlKey && e.shiftKey && e.key === "ArrowLeft"){
-            if(!atras.classList.contains('ocultar'))
-                atras.click();
-        }
-        if(e.ctrlKey && e.shiftKey && (e.key === "3" || e.key === "·")){
-            if(cajaEmail.classList.contains('mostrar')){
-                validacionEmail.focus(); 
-                validacionEmail.select(); 
-            }
-            if(!cajaPassword.classList.contains('ocultar')){
-                validacionPassword.focus(); 
-                validacionPassword.select(); 
-            }
-        }
-        if(e.ctrlKey && e.shiftKey && (e.key === "4" || e.key === "$")){
-            if(cajaPassword.classList.contains('mostrar'))
-                verContrasenya.click();
-        }
-    });
 </script>
 
 </body>
